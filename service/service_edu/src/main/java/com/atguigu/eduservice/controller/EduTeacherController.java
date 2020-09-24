@@ -69,6 +69,11 @@ public class EduTeacherController {
     public R pageListTeacher(@PathVariable long current, @PathVariable long limit){
         //创建page对象
         Page<EduTeacher> pageTeacher = new Page<>(current, limit);
+
+
+        //int i= 10 / 0; //错误异常
+
+
         //调用方法实现分页
         //调用方法时候，底层封装，把分页所有数据封装到pageTeacher对象里面
         eduTeacherService.page(pageTeacher, null);
@@ -124,6 +129,40 @@ public class EduTeacherController {
         List<EduTeacher> records = pageTeacher.getRecords();
         return R.ok().data("total", total).data("rows", records);
     }
+
+    //5 添加讲师接口的地方
+    @PostMapping("addTeacher")
+    public R addTeacher(@RequestBody EduTeacher eduTeacher){
+
+        boolean save = eduTeacherService.save(eduTeacher);
+        if(save){
+            return R.ok();
+        }else{
+            return R.error();
+        }
+    }
+
+    //6 根据讲师id进行查询
+    @GetMapping("{id}")
+    public R getTeacher(@PathVariable String id){
+        EduTeacher byId = eduTeacherService.getById(id);
+        return R.ok().data("teacher", byId);
+    }
+
+    //7 讲师修改
+    @PostMapping("updateTeacher")
+    public R updateTeacher(@RequestBody EduTeacher eduTeacher){
+
+        boolean b = eduTeacherService.updateById(eduTeacher);
+        if(b){
+            return R.ok();
+        }else{
+            return R.error();
+        }
+    }
+
+
+
 
 }
 
