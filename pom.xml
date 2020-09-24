@@ -5,8 +5,6 @@
     <modules>
         <module>service</module>
         <module>common</module>
-        <module>service_base</module>
-        <module>common</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -78,6 +76,7 @@
                 <scope>import</scope>
             </dependency>
 
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -113,11 +112,11 @@
             </dependency>
 
             <!--aliyunOSS-->
-            <dependency>
+            <!--<dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun.oss.version}</version>
-            </dependency>
+            </dependency>-->
 
             <!--日期时间工具-->
             <dependency>
