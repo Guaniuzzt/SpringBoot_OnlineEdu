@@ -5,6 +5,7 @@ import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.entity.EduTeacher;
 import com.atguigu.eduservice.entity.vo.TeacherQuery;
 import com.atguigu.eduservice.service.EduTeacherService;
+import com.atguigu.servicebase.exceptionhandler.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,6 +30,7 @@ import java.util.Map;
  */
 @Api(tags = "Teacher Management")
 @RestController
+@CrossOrigin
 @RequestMapping("/eduservice/teacher")
 public class EduTeacherController {
 
@@ -65,13 +67,20 @@ public class EduTeacherController {
     //current 当前页
     //limit 每页显示记录数
     @ApiOperation(value = "Page Select teachers")
-    @GetMapping("pageTeacher/{current}/{limit}")
+    @GetMapping("/pageTeacher/{current}/{limit}")
     public R pageListTeacher(@PathVariable long current, @PathVariable long limit){
         //创建page对象
         Page<EduTeacher> pageTeacher = new Page<>(current, limit);
 
 
         //int i= 10 / 0; //错误异常
+
+
+       /* try {
+            int i= 10 /0;
+        }catch(Exception e){
+            throw new GuliException(20002, "execute customized exception");
+        }*/
 
 
         //调用方法实现分页
@@ -91,7 +100,8 @@ public class EduTeacherController {
     }
 
     //4 条件查询带分页
-    @PostMapping("pageTeacherCondition/{current}/{limit}")
+    @PostMapping("/pageTeacherCondition/{current}/{limit}")
+    @CrossOrigin
     public R pageTeacherCondition(@PathVariable long current, @PathVariable long limit,
                                   @RequestBody(required = false) TeacherQuery teacherQuery){  //参数值可以为空
 
@@ -121,6 +131,8 @@ public class EduTeacherController {
         if (!StringUtils.isEmpty(end)) {
             queryWrapper.le("gmt_create", end);  //小于等于
         }
+        //排序
+        queryWrapper.orderByDesc("gmt_create");
 
         //调用方法实现条件查询分页
         eduTeacherService.page(pageTeacher, queryWrapper);
